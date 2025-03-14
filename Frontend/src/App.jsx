@@ -1,22 +1,43 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import PassengerForm from "./Components/Passangerform";
+// import PasssngerData from "./Components/PasssngerData";
+import Navbar from "./Components/Navbar";
+import PassengerData from "./Components/PasssngerData";
+const App = () => {
+  const [passengers, setPassengers] = useState([]);
 
+  // Fetch Data When App Loads
+  useEffect(() => {
+    fetchPassengers();
+  }, []);
 
-import Navbar from './Components/Navbar'
-import PassengerForm from './Components/Passangerform'
-import PassengerData from './Components/PasssngerData'
-
-function App() {
-
+  const fetchPassengers = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/passengers");
+      setPassengers(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
-    <>
-     <Navbar/>
-     <div style={{display:"flex"}}>
-     <PassengerForm/>
-     <PassengerData/>
-     </div>
-    
-    </>
-  )
-}
+    <div>
+      <Navbar/>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          gap: "40px",
+          padding: "40px",
+        }}
+      >
+        <PassengerForm setPassengers={setPassengers} />
+        <PassengerData passengers={passengers} />
+      </div>
+    </div>
+  );
+};
 
-export default App
+export default App;
