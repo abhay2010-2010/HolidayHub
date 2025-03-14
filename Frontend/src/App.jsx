@@ -10,6 +10,8 @@ const App = () => {
   // Fetch Data When App Loads
   useEffect(() => {
     fetchPassengers();
+
+    
   }, []);
 
   const fetchPassengers = async () => {
