@@ -24,18 +24,29 @@ const PassengerForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData();
-    Object.keys(formData).forEach((key) => {
-      data.append(key, formData[key]);
-    });
-
+  
+    const formData = new FormData();
+    formData.append("name", passenger.name);
+    formData.append("age", passenger.age);
+    formData.append("gender", passenger.gender);
+    formData.append("contact", passenger.contact);
+    formData.append("email", passenger.email);
+    formData.append("photo", passenger.photo); // Ensure this is a File object
+    formData.append("idCard", passenger.idCard); // Ensure this is a File object
+  
     try {
-      const response = await axios.post("http://localhost:5000/passengers", data);
+      const response = await axios.post("http://localhost:5000/passengers", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+  
       console.log("Success:", response.data);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error:", error.response?.data || error.message);
     }
   };
+  
 
   return (
     <div className="container d-flex justify-content-start align-items-start" style={{ marginLeft: "60px", marginTop: "60px" }}>

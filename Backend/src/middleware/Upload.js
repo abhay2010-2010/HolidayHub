@@ -1,4 +1,3 @@
-const { model } = require("mongoose");
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("cloudinary").v2;
@@ -16,13 +15,14 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "passenger-photos",
-    format: async (req, file) => "png",
+    format: async () => "png",
     public_id: (req, file) => `${Date.now()}-${file.originalname}`,
   },
 });
 
 // ✅ Initialize Multer
-const XYZ = multer({ storage });
-console.log("vvvvv",XYZ)
+const upload = multer({ storage });
+// console.log("Upload Middleware Loaded:", upload); // ✅ Debugging log
 
-model.export=XYZ; // ✅ Export correctly
+// ✅ Fix export
+module.exports = upload;
