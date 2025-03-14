@@ -1,13 +1,15 @@
 const express = require("express");
-const { getPassengers, createPassenger } = require("../Controller/passenger.controller");
-const upload = require("../middleware/upoad");
-
+const XYZ=require("../middleware/Upload")
+// const upload = require("../middleware/Upload"); // ✅ Correct import
+// console.log("upload middleware",upload);
+ // ✅ Import correctly
+const {createPassengers,getPassengers}=require("../Controller/passenger.controller");
 const router = express.Router();
 
-// POST request to create a passenger with file uploads
-router.post("/", upload.fields([{ name: "photo", maxCount: 1 }, { name: "idCard", maxCount: 1 }]), createPassenger);
+// ✅ Upload single image
+router.post("/", XYZ.single("photo"), createPassengers);
 
-// GET request to retrieve all passengers
+// ✅ Get all passengers
 router.get("/", getPassengers);
 
 module.exports = router;

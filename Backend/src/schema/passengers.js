@@ -6,8 +6,8 @@ const passengerSchema = new mongoose.Schema({
   gender: { type: String, required: true, enum: ["Male", "Female", "Other"] },
   contact: { type: String },
   email: { type: String },
-  photo: { type: String }, // Store image file path
-  idCard: { type: String }, // Store PDF file path
+  photo: { type: String }, 
+  idCard: { type: String }, 
 });
 
 const Passenger = mongoose.model("Passengers", passengerSchema);

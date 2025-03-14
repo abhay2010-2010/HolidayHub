@@ -1,24 +1,21 @@
 const Passenger = require("../schema/passengers");
 
 
-// Create a new passenger
+// ✅ Fix function name
 const createPassenger = async (req, res) => {
   try {
     const { name, age, gender, contact, email } = req.body;
-    const photo = req.files["photo"] ? req.files["photo"][0].path : null;
-    const idCard = req.files["idCard"] ? req.files["idCard"][0].path : null;
+    const photoUrl = req.file ? req.file.path : null;
 
-    const newPassenger = new Passenger({ name, age, gender, contact, email, photo, idCard });
+    const newPassenger = new Passenger({ name, age, gender, contact, email, photo: photoUrl });
     await newPassenger.save();
 
-
-    res.status(201).json({ message: "Passenger created successfully!", passenger: newPassenger });
+    res.status(201).json({ message: "Passenger added successfully!", passenger: newPassenger });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get all passengers
 const getPassengers = async (req, res) => {
   try {
     const passengers = await Passenger.find();
