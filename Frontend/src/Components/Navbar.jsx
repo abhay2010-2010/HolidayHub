@@ -33,11 +33,7 @@ const Navbar = () => {
                         <li className="nav-item">
                             <a className="nav-link fs-4 text-white fw-bold" href="#">Dashboard</a>
                         </li>
-                        <li  style={{marginLeft:"30px",marginTop:"10px"}} className="nav-item ml-5">
-                            <a  style={{backgroundColor:"white"}} className="nav-link text-black fw-bold bg-" href="#">
-                                <BsSearch className="me-1" /> Search Passenger
-                            </a>
-                        </li>
+                       
                     </ul>
 
                     {/* Filter Dropdown */}

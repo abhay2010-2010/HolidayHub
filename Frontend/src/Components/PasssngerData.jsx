@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import jsPDF from "jspdf";
 
 const PassengerData = ({ passengers }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // ✅ Filter passengers by name only
+  const filteredPassengers = passengers.filter((passenger) =>
+    passenger.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const generatePDF = (passenger) => {
     const doc = new jsPDF();
     doc.text("Passenger Details", 20, 20);
@@ -16,6 +23,16 @@ const PassengerData = ({ passengers }) => {
   return (
     <div className="container" style={{ width: "85%" }}>
       <h3 className="text-center mb-4">Passenger Data</h3>
+
+      {/* ✅ Search Input */}
+      <input
+        type="text"
+        className="form-control mb-3"
+        placeholder="Search by Name"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
       <div className="table-responsive shadow-lg rounded">
         <table className="table table-striped table-hover table-bordered">
           <thead className="thead-dark">
@@ -31,41 +48,42 @@ const PassengerData = ({ passengers }) => {
             </tr>
           </thead>
           <tbody>
-            {passengers.map((passenger) => (
-              <tr key={passenger._id}>
-                <td>{passenger.name}</td>
-                <td>{passenger.age}</td>
-                <td>{passenger.gender}</td>
-                <td>{passenger.contact}</td>
-                <td>{passenger.email}</td>
-                <td>
-                  {passenger.photo ? (
-                    <a href={passenger.photo} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-primary">
-                      View Photo
-                    </a>
-                  ) : (
-                    "No Photo"
-                  )}
-                </td>
-                <td>
-                  {passenger.idCard ? (
-                    <a href={passenger.idCard} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-success">
-                      View ID Card
-                    </a>
-                  ) : (
-                    "No ID Card"
-                  )}
-                </td>
-                <td>
-                  <button className="btn btn-sm btn-info" onClick={() => generatePDF(passenger)}>
-                    Generate PDF
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {passengers.length === 0 && (
+            {filteredPassengers.length > 0 ? (
+              filteredPassengers.map((passenger) => (
+                <tr key={passenger._id}>
+                  <td>{passenger.name}</td>
+                  <td>{passenger.age}</td>
+                  <td>{passenger.gender}</td>
+                  <td>{passenger.contact}</td>
+                  <td>{passenger.email}</td>
+                  <td>
+                    {passenger.photo ? (
+                      <a href={passenger.photo} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-primary">
+                        View Photo
+                      </a>
+                    ) : (
+                      "No Photo"
+                    )}
+                  </td>
+                  <td>
+                    {passenger.idCard ? (
+                      <a href={passenger.idCard} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-success">
+                        View ID Card
+                      </a>
+                    ) : (
+                      "No ID Card"
+                    )}
+                  </td>
+                  <td>
+                    <button className="btn btn-sm btn-info" onClick={() => generatePDF(passenger)}>
+                      Generate PDF
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
               <tr>
-                <td colSpan="8" className="text-center">No Passenger Data Available</td>
+                <td colSpan="8" className="text-center">No Matching Passengers Found</td>
               </tr>
             )}
           </tbody>
