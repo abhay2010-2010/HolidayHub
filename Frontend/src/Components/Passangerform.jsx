@@ -28,7 +28,7 @@ const PassengerForm = ({ setPassengers }) => {
     Object.keys(formData).forEach((key) => formDataToSend.append(key, formData[key]));
 
     try {
-      const response = await axios.post("http://localhost:5000/passengers", formDataToSend, {
+      const response = await axios.post("https://holidayhub-13.onrender.com/passengers", formDataToSend, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

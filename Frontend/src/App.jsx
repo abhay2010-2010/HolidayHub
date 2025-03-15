@@ -16,7 +16,7 @@ const App = () => {
 
   const fetchPassengers = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/passengers");
+      const response = await axios.get("https://holidayhub-13.onrender.com/passengers");
       setPassengers(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
